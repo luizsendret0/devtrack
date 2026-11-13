@@ -1,10 +1,8 @@
-</main>
 
-<footer>
-    <p>DevTrack © 2026</p>
-</footer>
+        </main>
+    </div>
+</div>
 
 <script src="assets/js/script.js"></script>
-
 </body>
 </html>

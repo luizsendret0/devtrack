@@ -982,3 +982,42 @@ html[data-theme="dark"] .stat-card.highlight {
 html[data-theme="light"] .stat-card.highlight {
     background: rgba(24, 119, 242, 0.12);
 }
+
+
+/* =========================================
+   CORREÇÃO - MODO CLARO
+   PÁGINAS EM DESENVOLVIMENTO
+========================================= */
+
+html[data-theme="light"] .coming-soon {
+    background: #ffffff;
+    border: 1px solid #d7e4f5;
+    color: #10233e;
+
+    box-shadow: 0 4px 20px rgba(26, 55, 100, 0.07);
+}
+
+/* Título */
+
+html[data-theme="light"] .coming-soon h1 {
+    color: #10233e;
+}
+
+/* Descrição */
+
+html[data-theme="light"] .coming-soon p {
+    color: #64748b;
+}
+
+/* Link para voltar ao dashboard */
+
+html[data-theme="light"] .coming-soon a {
+    color: #1877f2;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+html[data-theme="light"] .coming-soon a:hover {
+    color: #075fc8;
+    text-decoration: underline;
+}

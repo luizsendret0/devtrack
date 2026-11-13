@@ -1,4 +1,10 @@
-# Documentação do DevTrack
+# DevTrack Documentation
+
+- [Project Scope](./escopo.md)
+- [Functional Requirements](./requisitos-funcionais.md)
+- [Non-Functional Requirements](./requisitos-nao-funcionais.md)
+- [Business Rules](./regras-de-negocio.md)
+- [Data Model](./modelo-de-dados.md)
 
 O **DevTrack** é uma aplicação web para organizar candidaturas a vagas de tecnologia e orientar estudos com base nos requisitos das oportunidades cadastradas.
 
