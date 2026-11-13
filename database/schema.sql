@@ -1,0 +1,28 @@
+CREATE DATABASE IF NOT EXISTS devtrack
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+USE devtrack;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE job_applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    company_name VARCHAR(150) NOT NULL,
+    job_title VARCHAR(150) NOT NULL,
+    job_url VARCHAR(2048),
+    status VARCHAR(30) NOT NULL DEFAULT 'salva',
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
+);
