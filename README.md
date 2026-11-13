@@ -1,7 +1,7 @@
 ## Documentation
 
 Detailed technical documentation is available in the
-[docs directory](.app/docs/README.md).
+[docs directory](app/docs/README.md).
 
 **Track your applications. Develop your skills. Build your career.**
 
@@ -148,7 +148,7 @@ Through DevTrack, I aim to improve my knowledge of:
 
 ## Author
 
-**Luiz Felipe Sendreto**
+**Luiz Felipe Sendreto dos Santos**
 
 Systems Development Student
 
