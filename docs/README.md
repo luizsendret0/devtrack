@@ -19,6 +19,14 @@ O DevTrack busca organizar candidaturas a vagas de tecnologia e, em uma etapa po
 | [Modelo de dados](./modelo-de-dados.md) | Tabelas, campos e relacionamentos planejados |
 | [Landing Page](./landing-page.md) | Objetivo, requisitos e critérios de aceite da página pública |
 
+## Entrega documentada: Landing Page (`v0.2.1-alpha`)
+
+A página inicial pública foi criada com Hero, apresentação dos recursos, demonstração ilustrativa da Área de Estudos, navegação por âncoras, menu mobile, temas claro/escuro e links para login/cadastro. O comportamento condicional para um usuário logado está preparado, mas a autenticação real é a próxima entrega.
+
+**Documentação completa:** [Landing Page — RF, RNF, RN e critérios de aceite](./landing-page.md).
+
+Os requisitos específicos `RF-LP-01` a `RF-LP-09`, `RNF-LP-01` a `RNF-LP-07` e `RN-LP-01` a `RN-LP-06` também estão referenciados nos documentos gerais de requisitos e regras.
+
 ## Estado atual da implementação
 
 ### Implementado na interface

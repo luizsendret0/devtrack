@@ -1,49 +1,131 @@
 # Landing Page — DevTrack
 
-**Marco proposto:** `v0.2.1-alpha`  
-**Situação:** interface pública criada antes da autenticação.
+**Versão:** `v0.2.1-alpha`  
+**Tipo:** Página pública de apresentação  
+**Status:** Implementada nos arquivos da etapa; validar integração e comportamento no Laragon local  
+**Próximo marco:** `v0.3.0-alpha` — autenticação
 
-## Objetivo
+## 1. Objetivo
 
-Apresentar o DevTrack e seu diferencial (organização de candidaturas + estudo orientado por vagas) sem exigir login. Usuários já logados poderão continuar visitando a landing e entrar no dashboard pelo botão principal.
+Apresentar o DevTrack para visitantes sem exigir conta e explicar a proposta de valor: **acompanhar candidaturas a vagas de tecnologia** e, em versões posteriores, **orientar estudos a partir das exigências das vagas cadastradas**.
 
-## Requisitos funcionais
+A landing **não substitui** o dashboard: é a porta de entrada pública da aplicação. O dashboard e suas candidaturas serão privados quando a autenticação for implementada.
 
-- **RF-LP-01:** O sistema deve exibir a landing pública na rota `/`.
-- **RF-LP-02:** A página deve apresentar propósito, recursos, demonstração ilustrativa e informações do projeto.
-- **RF-LP-03:** O visitante deve encontrar links para login e cadastro.
-- **RF-LP-04:** Usuários autenticados devem visualizar um botão de acesso ao dashboard.
-- **RF-LP-05:** A navegação por âncoras deve levar às seções internas da landing.
-- **RF-LP-06:** O botão de alternância de temas deve compartilhar a preferência com o dashboard.
-- **RF-LP-07:** O menu mobile deve abrir, fechar e permitir navegação por teclado.
+## 2. Público e jornada do usuário
 
-## Requisitos não funcionais
+- **Visitante sem conta:** pode ler a landing e acessar as páginas de entrar/cadastrar; ainda não usa o dashboard com dados reais.
+- **Usuário cadastrado, mas deslogado:** continua podendo acessar a landing; precisa fazer login para acessar a área privada.
+- **Usuário com sessão autenticada:** pode permanecer na landing e usar o botão **Ir para o Dashboard**.
 
-- **RNF-LP-01:** Layout responsivo em telas desktop, tablet e mobile.
-- **RNF-LP-02:** Elementos interativos acessíveis por teclado, com indicadores de foco visíveis.
-- **RNF-LP-03:** Não depender de bibliotecas externas para renderizar a interface.
-- **RNF-LP-04:** Usar imagem WEBP otimizada e texto alternativo na prévia.
-- **RNF-LP-05:** A landing deve operar independentemente do CSS do dashboard.
+```text
+Landing pública (/)
+├── Recursos (#recursos)
+├── Demonstração (#demonstracao)
+├── Como funciona (#como-funciona)
+├── Sobre (#sobre)
+├── Entrar (?page=login)           [ainda temporário na v0.2.1-alpha]
+└── Criar conta (?page=register)   [ainda temporário na v0.2.1-alpha]
 
-## Regras de negócio
+Sessão autenticada (previsto para v0.3.0-alpha)
+└── Ir para o Dashboard (?page=dashboard)
+```
 
-- **RN-LP-01:** A landing sempre será acessível sem autenticação.
-- **RN-LP-02:** Estar cadastrado não significa estar logado: somente sessões autenticadas terão CTA direto para o dashboard.
-- **RN-LP-03:** Números e imagens de demonstração devem ser identificados como ilustrativos.
-- **RN-LP-04:** Nenhuma funcionalidade ainda não implementada será anunciada como disponível para uso.
+> A landing e os links de navegação já foram criados. **A existência dos links não significa que login, cadastro ou proteção de rotas já funcionem.** Antes da autenticação, o dashboard continua sem controle de acesso real.
 
-## Critérios de aceite
+## 3. Seções implementadas na interface
 
-1. `http://devtrack.test/` abre a landing, sem mostrar sidebar do dashboard.
-2. Links de login e cadastro apontam para as rotas existentes.
-3. `http://devtrack.test/?page=dashboard` mantém a interface atual (até implementar proteção de sessão).
-4. A escolha do modo claro/escuro persiste após recarregar a página e é compatível com o botão do dashboard.
-5. O menu mobile funciona e fecha após clicar em um link ou pressionar `Escape`.
-6. Não há scroll horizontal no celular; a prévia e os cartões se adaptam à largura da tela.
-7. As seções e o rodapé funcionam sem banco de dados.
+| Seção | Âncora / Local | Conteúdo |
+| --- | --- | --- |
+| Cabeçalho | `landing-header.php` | Logo, links de navegação, alternância de tema e ações de conta |
+| Hero | início da landing | Título, descrição, **Começar gratuitamente**, **Ver demonstração** e prévia ilustrativa do dashboard |
+| Recursos | `#recursos` | Cards: candidaturas, análise de habilidades e trilhas de aprendizado |
+| Demonstração | `#demonstracao` | Visualização **fictícia** da Área de Estudos, com percentuais de exemplo |
+| Como funciona | `#como-funciona` | Três passos: criar conta, adicionar vagas e estudar com direção |
+| CTA final | `#sobre` | Convite para conhecer/usar o DevTrack, conforme a sessão |
+| Rodapé | `landing-footer.php` | Navegação, GitHub e identificação do projeto |
 
-## Próximas versões
+**Observação:** a prévia do dashboard é um arquivo WEBP ilustrativo e os percentuais de tecnologias mostrados na demonstração não vêm do MySQL.
 
-- `v0.3.0-alpha`: autenticação, criação de conta, login/logout e rotas privadas.
-- `v0.4.0-alpha`: CRUD de candidaturas ligado ao MySQL.
-- `v0.6.0-beta`: análise real de tecnologias e recomendações de estudo.
+## 4. Requisitos funcionais específicos da landing (RF)
+
+| Código | Requisito | Situação |
+| --- | --- | --- |
+| RF-LP-01 | Abrir a landing na rota pública `/` (`?page=landing` também pode ser usado). | Desenvolvido; testar localmente |
+| RF-LP-02 | Mostrar o propósito do produto e as seções Hero, Recursos, Demonstração, Como funciona e Sobre. | Desenvolvido |
+| RF-LP-03 | Oferecer links de **Entrar** e **Criar conta** aos visitantes. | Links criados; autenticação pendente |
+| RF-LP-04 | Exibir CTA **Ir para o Dashboard** quando houver sessão autenticada válida. | Lógica condicional preparada; integração pendente |
+| RF-LP-05 | Permitir navegar pelas seções internas por links de âncora. | Desenvolvido; testar localmente |
+| RF-LP-06 | Alternar temas claro e escuro, reutilizando a preferência `devtrack-theme` do dashboard. | Desenvolvido; testar integração |
+| RF-LP-07 | Permitir abrir/fechar menu mobile, incluindo fechamento por `Escape` ou clique em link. | Desenvolvido; testar localmente |
+| RF-LP-08 | Oferecer acesso ao repositório do projeto no GitHub. | Desenvolvido |
+| RF-LP-09 | Mostrar aviso de demonstração para valores e funcionalidades ainda ilustrativos. | Desenvolvido |
+
+## 5. Requisitos não funcionais específicos da landing (RNF)
+
+| Código | Requisito | Verificação |
+| --- | --- | --- |
+| RNF-LP-01 | Ser responsiva para desktop, tablet e celular. | Conferir em 360, 768 e 1440 px |
+| RNF-LP-02 | Ser utilizável por teclado, com foco visível e botão de menu acessível. | Navegar com Tab, Enter e Escape |
+| RNF-LP-03 | Não depender de frameworks JavaScript ou serviços externos para a interface básica. | Testar localmente, sem CDN |
+| RNF-LP-04 | Utilizar prévia de imagem otimizada em WEBP com atributo `alt`. | Inspecionar imagem e HTML |
+| RNF-LP-05 | Manter CSS/JS separados do dashboard para evitar conflitos. | Conferir `landing.css` e `landing.js` |
+| RNF-LP-06 | Compartilhar a preferência de tema usando `localStorage`, com fallback caso indisponível. | Alternar tema, recarregar e abrir dashboard |
+| RNF-LP-07 | Não mostrar valores fictícios como indicadores reais ou funcionalidades já disponíveis. | Revisar textos e avisos da demonstração |
+
+## 6. Regras de negócio da landing (RN)
+
+| Código | Regra |
+| --- | --- |
+| RN-LP-01 | A landing é pública para visitantes e usuários autenticados. |
+| RN-LP-02 | Estar cadastrado não é estar logado: só uma **sessão autenticada válida** autoriza acesso a páginas privadas (exigência da v0.3.0-alpha). |
+| RN-LP-03 | Visitantes recebem CTAs de login/cadastro; usuários autenticados recebem CTA para o dashboard. |
+| RN-LP-04 | Os números, cartões e gráficos de prévia devem continuar identificados como **demonstrativos** até a integração com dados reais. |
+| RN-LP-05 | Os textos da landing podem apresentar a visão do produto, mas não podem afirmar que o cadastro, a análise automática ou a recomendação de estudos já estão funcionando. |
+| RN-LP-06 | A escolha de tema feita na landing deve valer também no dashboard e vice-versa, quando acessados no mesmo navegador. |
+
+## 7. Identidade visual
+
+- **Modo escuro:** fundo quase preto, superfícies azul-marinho e destaque azul-ciano.
+- **Modo claro:** fundo branco/azul muito claro, superfícies claras e destaque azul.
+- **Estética:** cartões arredondados, Glassmorphism discreto, boa legibilidade e layout responsivo.
+- **Persistência:** chave `devtrack-theme` no `localStorage`, compartilhada com o dashboard.
+
+## 8. Arquivos envolvidos
+
+```text
+public/
+├── index.php                       # ponto de entrada e seleção de rota
+└── assets/
+    ├── css/landing.css             # estilos exclusivos da landing
+    ├── js/landing.js               # tema e menu responsivo
+    └── img/dashboard-preview.webp  # ilustração do dashboard
+views/
+├── landing/index.php               # seções e conteúdo da landing
+└── layouts/
+    ├── landing-header.php          # head, menu, CTAs e ícones
+    └── landing-footer.php          # rodapé e script
+```
+
+**Atenção:** o `public/index.php` também contém o roteamento já existente. Ao integrar, preservar as outras rotas e os layouts do dashboard.
+
+## 9. Critérios de aceite — checklist de teste manual
+
+- [ ] Abrir `http://devtrack.test/` sem login e ver a landing, **sem a sidebar do dashboard**.
+- [ ] Clicar em **Entrar** e **Criar conta** e chegar às rotas existentes (ainda temporárias).
+- [ ] Clicar em **Ver demonstração** e navegar até a prévia da Área de Estudos.
+- [ ] Verificar links **Recursos**, **Como funciona**, **Sobre** e **GitHub**.
+- [ ] Alternar entre temas, recarregar e comprovar que a escolha permanece.
+- [ ] Alternar o tema na landing e abrir o dashboard para conferir consistência.
+- [ ] Em 360 px de largura, confirmar ausência de rolagem horizontal indevida.
+- [ ] Em celular, abrir/fechar menu, clicar em um link e pressionar `Escape`.
+- [ ] Confirmar que dados demonstrativos estão corretamente identificados.
+- [ ] Após implementar login, testar usuário autenticado, visitante e usuário deslogado.
+
+Estes itens devem ser marcados apenas depois de testar no ambiente local; a entrega de arquivos não prova o comportamento no computador do usuário.
+
+## 10. Próximos passos
+
+- **`v0.3.0-alpha`:** telas de cadastro/login, sessões, hash de senha, logout, CSRF e bloqueio efetivo das páginas privadas.
+- **`v0.4.0-alpha`:** CRUD de candidaturas persistidas no MySQL.
+- **`v0.5.0-beta`:** dashboard/Kanban com dados reais.
+- **`v1.1`:** análises de tecnologias e recomendações de estudos baseadas nas vagas.
