@@ -1021,3 +1021,22 @@ html[data-theme="light"] .coming-soon a:hover {
     color: #075fc8;
     text-decoration: underline;
 }
+
+
+/* Garante que o menu fique acima do dashboard */
+
+.topbar {
+    position: relative;
+    z-index: 1000;
+    overflow: visible;
+}
+
+.topbar-user {
+    position: relative;
+    z-index: 1001;
+}
+
+.main-shell,
+.content {
+    overflow: visible;
+}

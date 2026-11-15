@@ -21,7 +21,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevTrack</title>
+    
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/profile-menu.css">
+
 </head>
 <body>
 
@@ -124,24 +127,27 @@
         >
     </div>
 
-    <div class="topbar-user">
+   
+<div class="topbar-user">
 
-        <button
-            id="theme-toggle"
-            class="theme-toggle"
-            type="button"
-            aria-label="Ativar modo claro"
-            title="Mudar tema"
-        >
-            <span class="theme-toggle-icon"
-                  aria-hidden="true">☀</span>
-        </button>
+    <!-- Alternar tema -->
+    <button
+        id="theme-toggle"
+        class="theme-toggle"
+        type="button"
+        aria-label="Mudar tema"
+    >
+        <span class="theme-toggle-icon">☀</span>
+    </button>
 
-        <span class="notification" aria-hidden="true">♧</span>
+    <!-- Notificações -->
+    <span class="notification">♧</span>
 
-        <span class="avatar">LS</span>
+    <!-- Perfil -->
+    <?php require __DIR__ . '/../shared/profile-menu.php'; ?>
 
-    </div>
+</div>
+
 
 </header>
 

@@ -1,0 +1,12 @@
+/* COPIE este conteúdo para o FINAL de public/assets/css/style.css (dashboard). */
+.logout-form { margin: 0; }
+.logout-button {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.logout-button:hover { border-color: var(--accent); color: var(--accent); }
