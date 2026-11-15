@@ -1,76 +1,70 @@
-## Documentation
+# DevTrack
 
-Detailed technical documentation is available in the
-[docs directory](app/docs/README.md).
+**Organize applications. Track opportunities. Grow your skills.**
 
-**Track your applications. Develop your skills. Build your career.**
+**Version:** `v0.2.1-alpha` · **Status:** Active development · **Current milestone:** Public landing page and UI prototype
 
-DevTrack is a web application designed to help students and junior developers organize their job applications, monitor recruitment processes, and identify the technical skills they should prioritize based on job requirements.
+DevTrack is a personal full-stack web project designed for students and early-career developers who want to manage job applications and, in future releases, guide their studies using the technologies requested in the opportunities they save.
 
-**Current version:** `v0.2.0-alpha`  
-**Project status:** In Development  
-**Development approach:** PHP without frameworks, using a simplified MVC architecture.
+> **Development status:** The public landing page and the visual dashboard are available as a prototype. Application cards, counters, charts, and learning recommendations currently use **demonstration data**. Registration, login, persistent applications, and personalized recommendations are **not implemented yet**.
 
----
+## Why DevTrack?
 
-## About the Project
+Tracking internships and junior developer positions across multiple platforms can get messy. DevTrack aims to bring applications, recruitment stages, and skills development into one place.
 
-Finding the first opportunity in tech can be challenging.
+The project has two connected goals:
 
-Job applications are often spread across multiple platforms, making it difficult to track application statuses, organize interviews, and identify which technologies are most frequently requested by employers.
+1. **Job application tracking:** Organize opportunities and follow every stage of the hiring process.
+2. **Career-focused learning:** Identify frequently requested technologies and plan what to study next (planned feature).
 
-DevTrack aims to solve these problems by combining two main features:
+## Preview
 
-- **Application Tracking:** Manage job opportunities and follow each stage of the recruitment process.
-- **Learning Management:** Identify skill gaps and organize learning paths based on technologies required in saved job opportunities.
+![Illustrative preview of the DevTrack dashboard](./public/assets/img/dashboard-preview.webp)
 
-The goal is to connect job searching with professional development in a single platform.
+*Illustrative dashboard preview. The values shown are sample data, not actual user statistics.*
 
-## Current Features
+The interface uses **dark (black/navy with cyan accents)** and **light (white with blue accents)** themes, a responsive sidebar, a Kanban-style application overview, and a study section preview.
 
-The following features are implemented in the current prototype:
+## Current functionality
 
-- [x] Initial project structure
-- [x] Dashboard interface
-- [x] Sidebar navigation
-- [x] Application Kanban interface using sample data
-- [x] Learning section interface
-- [x] Light and dark themes
-- [x] Theme preference persistence
-- [x] Glassmorphism visual effects
-- [x] Responsive layout styling
-- [ ] User registration and authentication
-- [ ] Database-backed application management
-- [ ] Functional Kanban status management
-- [ ] Dynamic dashboard statistics
-- [ ] Job-based technology analysis
-- [ ] Personalized learning recommendations
+| Feature | Status |
+| --- | --- |
+| Public landing page with feature overview and calls to action | Implemented (UI) |
+| Landing sections, responsive menu, and internal navigation | Implemented (UI) |
+| Responsive dashboard and sidebar navigation | Implemented (UI) |
+| Kanban-style application cards | Demonstration only |
+| Study area / learning path panels | Demonstration only |
+| Light/dark themes with preference stored in the browser | Implemented |
+| Glassmorphism and responsive layout | Implemented (UI) |
+| Login, registration, logout, and protected routes | Planned — `v0.3.0-alpha` |
+| Save, edit, filter, and delete applications in MySQL | Planned — `v0.4.0-alpha` |
+| Dashboard counters and Kanban with real data | Planned — `v0.5.0-beta` |
+| Skill gap analysis and personalized study suggestions | Planned — post-MVP (`v1.1`) |
 
-**Note:** The dashboard currently displays demonstration data. Authentication, application persistence, and learning recommendations are not yet functional.
+**Important:** The presence of login/register links does not mean authentication is operational. Until the next milestone, private dashboard routes are **not yet access-controlled**.
 
-## Technologies
+## Tech stack
 
-| Category | Technology |
-|---|---|
-| Front-end | HTML5, CSS3, JavaScript |
-| Back-end | PHP |
-| Database | MySQL |
-| Database Access | PDO |
-| Architecture | Simplified MVC |
-| Local Development | Laragon |
-| Version Control | Git & GitHub |
+| Area | Technology |
+| --- | --- |
+| Front-end | HTML5, CSS3, vanilla JavaScript |
+| Back-end | PHP (no Laravel) |
+| Database (integration in progress) | MySQL, PDO |
+| Architecture | Simplified MVC-style structure |
+| Local environment | Laragon (Apache + PHP + MySQL) |
+| Version control | Git / GitHub |
 
-Additional technologies may be introduced as the project evolves.
+No front-end framework is required for the current interface.
 
-## Project Structure
+## Project structure
 
 ```text
 devtrack/
 ├── app/
-│   ├── controllers/
-│   ├── models/
 │   ├── config/
-│   └── middleware/
+│   ├── controllers/
+│   ├── middleware/
+│   └── models/
 ├── database/
 │   └── schema.sql
 ├── docs/
@@ -79,81 +73,82 @@ devtrack/
 │   ├── requisitos-funcionais.md
 │   ├── requisitos-nao-funcionais.md
 │   ├── regras-de-negocio.md
-│   └── modelo-de-dados.md
+│   ├── modelo-de-dados.md
+│   └── landing-page.md
 ├── public/
 │   ├── assets/
 │   │   ├── css/
-│   │   └── js/
+│   │   │   ├── style.css
+│   │   │   └── landing.css
+│   │   ├── js/
+│   │   │   ├── script.js
+│   │   │   └── landing.js
+│   │   └── img/
+│   │       └── dashboard-preview.webp
 │   └── index.php
 ├── views/
 │   ├── auth/
 │   ├── dashboard/
 │   ├── jobs/
+│   ├── landing/
 │   ├── layouts/
 │   └── shared/
 ├── .gitignore
 └── README.md
 ```
 
-## Documentation
+## Run locally
 
-The project documentation is organized in the `docs/` directory.
+The project is being developed on **Windows with Laragon**.
 
-It includes:
+1. Clone the repository into Laragon's `www` directory:
+   ```powershell
+   cd C:\laragon\www
+   git clone https://github.com/luizsendret0/devtrack.git
+   ```
+2. In Laragon, start **Apache**. MySQL is needed for the upcoming database-driven features, but the landing page itself does not require it.
+3. Configure the local host `devtrack.test` to use `C:\laragon\www\devtrack\public` as its document root.
+4. Open the following addresses:
 
-- Project scope and objectives
-- Functional requirements (RF)
-- Non-functional requirements (RNF)
-- Business rules (RN)
-- Data model planning
+   | Address | Description |
+   | --- | --- |
+   | `http://devtrack.test/` | Public landing page |
+   | `http://devtrack.test/?page=dashboard` | Dashboard prototype (not yet protected) |
+   | `http://devtrack.test/?page=login` | Login placeholder |
+   | `http://devtrack.test/?page=register` | Registration placeholder |
 
-These documents describe the intended system behavior and will be updated throughout development.
+If your Laragon configuration uses a different project URL, use that URL instead. Database setup instructions will be expanded when authentication is implemented.
 
-## Development Roadmap
+## Roadmap
 
 | Version | Milestone | Status |
-|---|---|---|
-| v0.1.0 | Project setup and initial structure | Completed |
-| v0.2.0-alpha | Dashboard UI, navigation and theme system | Current |
-| v0.3.0-alpha | User authentication and session management | Planned |
-| v0.4.0-alpha | Job application CRUD | Planned |
-| v0.5.0-beta | Dynamic dashboard and Kanban | Planned |
-| v0.6.0-beta | Skill analysis and learning recommendations | Planned |
-| v1.0.0 | Complete and tested MVP | Planned |
+| --- | --- | --- |
+| `v0.1.0` | Folder structure and local development setup | Completed |
+| `v0.2.0-alpha` | Dashboard prototype, Kanban UI, themes, and glassmorphism | Completed |
+| **`v0.2.1-alpha`** | **Public landing page, responsive layout, and project presentation** | **Current** |
+| `v0.3.0-alpha` | User registration, login, sessions, CSRF, logout, and access control | Next |
+| `v0.4.0-alpha` | Application CRUD and ownership validation | Planned |
+| `v0.5.0-beta` | Real dashboard metrics, search, filters, and functional Kanban | Planned |
+| `v0.6.0-beta` | Testing, accessibility, fixes, and release preparation | Planned |
+| `v1.0.0` | Tested and published application-tracking MVP | Goal |
+| `v1.1` | Technology analysis and study recommendations using saved vacancies | Future |
 
-## Running Locally
+*Version numbers describe the development plan; GitHub tags/releases must be created separately.*
 
-The project is currently developed using Laragon on Windows.
+## Documentation
 
-1. Clone the repository into your local development directory.
-2. Start Apache and MySQL in Laragon.
-3. Configure the local virtual host to use the `public/` directory as the document root.
-4. Open the application using the configured local domain, such as `http://devtrack.test`.
+Detailed documentation, including scope, functional and non-functional requirements, business rules, the planned data model, and landing-page acceptance criteria, is available in the [technical documentation](./docs/README.md).
 
-Database configuration and installation instructions will be expanded as the back-end is implemented.
+## Next milestone — Authentication
 
-## Project Goals
-
-This project is also part of my personal development as a software developer.
-
-Through DevTrack, I aim to improve my knowledge of:
-
-- PHP and object-oriented programming
-- MVC architecture
-- Relational database modeling
-- SQL queries and PDO
-- Authentication and web security
-- Responsive interface development
-- Software documentation and testing
+The next release will connect the existing public landing page to real user accounts and protected dashboard access. It will include secure password hashing, server-side validation, CSRF protection, sessions, logout, and ownership-aware authorization for future application records.
 
 ## Author
 
-**Luiz Felipe Sendreto dos Santos**
-
-Systems Development Student
-
+**Luiz Felipe Sendreto**  
+Systems Development student  
 [GitHub](https://github.com/luizsendret0)
 
 ---
 
-*DevTrack is an independent personal project currently under active development.*
+*DevTrack is an independent learning and portfolio project under active development.*
