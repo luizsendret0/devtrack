@@ -1,98 +1,81 @@
-# Documentação técnica — DevTrack
+# DevTrack — Technical Documentation
 
-**Versão de referência:** `v0.2.1-alpha`  
-**Situação:** Landing page pública e protótipo visual do dashboard; autenticação ainda não implementada.  
-**Stack:** PHP puro, HTML, CSS, JavaScript e MySQL (integração em desenvolvimento), utilizando Laragon.
+**Reference version:** `v0.3.1-alpha`  
+**Current milestone:** Authentication and profile management completed in local development  
+**Next milestone:** Job application CRUD (`v0.4.0-alpha`)  
+**Stack:** PHP, MySQL/PDO, HTML, CSS, JavaScript, Laragon
 
-O DevTrack busca organizar candidaturas a vagas de tecnologia e, em uma etapa posterior, orientar o aprendizado a partir das tecnologias exigidas nas oportunidades salvas pelo usuário.
+[Back to the main README](../README.md)
 
-[Voltar ao README principal](../README.md)
+## Documentation index
 
-## Índice da documentação
-
-| Documento | Finalidade |
+| File | Contents |
 | --- | --- |
-| [Escopo do projeto](./escopo.md) | Problema, público-alvo, MVP e funcionalidades futuras |
-| [Requisitos funcionais (RF)](./requisitos-funcionais.md) | Funcionalidades e critérios de aceitação planejados |
-| [Requisitos não funcionais (RNF)](./requisitos-nao-funcionais.md) | Segurança, usabilidade, responsividade e manutenção |
-| [Regras de negócio (RN)](./regras-de-negocio.md) | Restrições de contas, candidaturas e indicadores |
-| [Modelo de dados](./modelo-de-dados.md) | Tabelas, campos e relacionamentos planejados |
-| [Landing Page](./landing-page.md) | Objetivo, requisitos e critérios de aceite da página pública |
+| [Project Scope](./escopo.md) | Goals, target users, MVP and future features |
+| [Functional Requirements (RF)](./requisitos-funcionais.md) | Expected system behavior |
+| [Non-Functional Requirements (RNF)](./requisitos-nao-funcionais.md) | Security, usability and maintainability |
+| [Business Rules (RN)](./regras-de-negocio.md) | Restrictions and conditions |
+| [Data Model](./modelo-de-dados.md) | Planned schema and relationships |
+| [Landing Page](./landing-page.md) | Public website requirements and acceptance criteria |
+| [Authentication](./autenticacao.md) | Registration, login, logout, sessions and protected routes |
+| [User Profile](./perfil.md) | Avatar dropdown, photo upload and sign-out |
 
-## Entrega documentada: Landing Page (`v0.2.1-alpha`)
+## Current implementation
 
-A página inicial pública foi criada com Hero, apresentação dos recursos, demonstração ilustrativa da Área de Estudos, navegação por âncoras, menu mobile, temas claro/escuro e links para login/cadastro. O comportamento condicional para um usuário logado está preparado, mas a autenticação real é a próxima entrega.
+### Working locally
 
-**Documentação completa:** [Landing Page — RF, RNF, RN e critérios de aceite](./landing-page.md).
+- Public landing page with navigation, responsive layout and calls to action.
+- Responsive dashboard UI, light/dark themes and theme preference saved in the browser.
+- Account registration and login with PHP and MySQL.
+- Session-based access control for private dashboard routes.
+- Logout through POST and CSRF protection.
+- Profile dropdown on the avatar, supporting upload of JPG, PNG and WebP images (up to 2 MB).
+- Profile image associated with the authenticated account and available after a new login.
 
-Os requisitos específicos `RF-LP-01` a `RF-LP-09`, `RNF-LP-01` a `RNF-LP-07` e `RN-LP-01` a `RN-LP-06` também estão referenciados nos documentos gerais de requisitos e regras.
+### Prototype or not yet implemented
 
-## Estado atual da implementação
+- Application lists, Kanban, counters, charts and study recommendations **still use demonstration data**.
+- Application CRUD and ownership checks are the next delivery.
+- Technology analysis and personalized learning plans are planned for later releases.
+- Automated security and end-to-end testing are still pending.
 
-### Implementado na interface
-
-- Landing page pública com apresentação do produto, benefícios, demonstração e chamadas para ação.
-- Navegação entre seções e menu responsivo para celular.
-- Dashboard visual com sidebar, indicadores e Kanban de candidaturas fictícias.
-- Prévia visual da Área de Estudos e das trilhas.
-- Modos claro e escuro, preferência local do tema e efeitos Glassmorphism.
-- Páginas temporárias nas seções ainda não desenvolvidas.
-
-### Ainda não implementado
-
-- Cadastro e autenticação reais de usuários, sessões e logout.
-- Proteção do dashboard e das demais páginas privadas.
-- Persistência das candidaturas no MySQL e gerenciamento CRUD completo.
-- Indicadores e filtros alimentados por dados reais.
-- Análise de tecnologias e recomendações individualizadas de estudo.
-
-> **Observação:** os valores exibidos no dashboard e na Área de Estudos são dados demonstrativos. A existência de rotas de login ou cadastro **não equivale** à implementação de autenticação.
-
-## Fluxo de navegação planejado
+## Navigation and authorization
 
 ```text
-Landing page pública (/)
-   ├── Login (?page=login) ---------┐
-   └── Registro (?page=register) ---┤
-                                     ↓
-                         Dashboard autenticado
-                            ├── Candidaturas
-                            └── Área de Estudos
+Public landing page (/)
+    ├── Register (?page=register) ─┐
+    └── Login (?page=login) ───────┤
+                                   ↓
+                          Private dashboard
+                                   ├── Profile / avatar upload
+                                   ├── Logout (POST + CSRF)
+                                   └── Applications (next milestone)
 ```
 
-A landing page deve continuar pública inclusive para pessoas autenticadas. Ter um cadastro não é o mesmo que estar logado: o acesso ao dashboard dependerá de uma sessão válida quando a autenticação for implementada.
+The landing page is accessible to both visitors and authenticated users. **Having an account is not equivalent to being logged in:** the dashboard requires an active session.
 
-## Convenções
+## Implementation references
 
-| Identificador | Significado |
-| --- | --- |
-| `RF-XX` | Requisito funcional |
-| `RNF-XX` | Requisito não funcional |
-| `RN-XX` | Regra de negócio |
-| `RF-LP-XX` | Requisito funcional específico da landing page |
-| `RNF-LP-XX` | Requisito não funcional da landing page |
-| `RN-LP-XX` | Regra de negócio da landing page |
+- Authentication: `app/controllers/AuthController.php`, `app/models/User.php`, `app/middleware/auth.php`, `app/helpers/security.php`.
+- Profile: `app/controllers/ProfileController.php`, `views/shared/profile-menu.php` and its CSS/JavaScript assets.
+- Avatar storage: `public/uploads/avatars/` and `users.avatar_path`.
+- Entry point and routes: `public/index.php`.
 
-Os documentos de escopo distinguem **MVP**, **V1.1** e **V2**. Requisitos planejados não devem ser marcados como implementados antes de concluídos e testados.
+## Release plan
 
-## Roadmap técnico
-
-| Versão | Entrega | Situação |
+| Version | Delivery | Status |
 | --- | --- | --- |
-| `v0.2.1-alpha` | Landing page e protótipo visual | Atual |
-| `v0.3.0-alpha` | Cadastro, login, logout, sessões e proteção de rotas | Próxima |
-| `v0.4.0-alpha` | CRUD de candidaturas com autorização por proprietário | Planejada |
-| `v0.5.0-beta` | Dashboard, filtros e Kanban com dados reais | Planejada |
-| `v0.6.0-beta` | Testes, acessibilidade e estabilização | Planejada |
-| `v1.0.0` | MVP de acompanhamento de candidaturas | Objetivo |
-| `v1.1` | Análise de tecnologias e estudos recomendados | Futuro |
+| `v0.2.1-alpha` | Public landing page | Completed |
+| `v0.3.0-alpha` | Authentication and protected routes | Completed locally |
+| **`v0.3.1-alpha`** | **Profile menu, avatar upload and fixes** | **Current** |
+| `v0.4.0-alpha` | Application CRUD | Next |
+| `v0.5.0-beta` | Real dashboard and Kanban | Planned |
+| `v0.6.0-beta` | Tests and stabilization | Planned |
+| `v1.0.0` | Application tracking MVP | Goal |
+| `v1.1` | Skills and personalized learning | Future |
 
-## Processo de atualização
+## Documentation maintenance
 
-1. Identificar os RF, RNF e RN associados à funcionalidade antes de programar.
-2. Implementar e testar o fluxo, inclusive validações de segurança.
-3. Atualizar o documento técnico correspondente.
-4. Atualizar o `README.md` principal e o histórico de versões, quando existir.
-5. Fazer um commit com mensagem descritiva.
+When a feature is completed, update its RF/RNF/RN references and acceptance checklists, then update both READMEs and the changelog. The documentation describes the current direction; acceptance items should only be checked after verification in the local environment.
 
-**Próxima tarefa técnica:** implementar a autenticação `v0.3.0-alpha`, mantendo a landing pública e tornando o dashboard uma área privada.
+**Next technical task:** implement `v0.4.0-alpha` with persistent job applications, proper ownership validation and server-side input validation.
