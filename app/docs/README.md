@@ -5,6 +5,7 @@
 - [Non-Functional Requirements](./requisitos-nao-funcionais.md)
 - [Business Rules](./regras-de-negocio.md)
 - [Data Model](./modelo-de-dados.md)
+- [Landing Page](./landing-page.md)
 
 O **DevTrack** é uma aplicação web para organizar candidaturas a vagas de tecnologia e orientar estudos com base nos requisitos das oportunidades cadastradas.
 
