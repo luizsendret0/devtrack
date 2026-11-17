@@ -1,0 +1,35 @@
+/* DevTrack — Candidaturas (v0.4.0-alpha)
+   Integra com as variáveis dos temas existentes. */
+.jobs-page{max-width:1500px;margin:0 auto;padding-bottom:36px;color:var(--text)}
+.jobs-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:26px}
+.jobs-page-head h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;margin:6px 0 8px}
+.jobs-page-head p,.jobs-hint,.jobs-secondary,.jobs-note,.jobs-empty p{color:var(--muted);font-size:13px;line-height:1.6}
+.jobs-back{display:inline-block;color:var(--accent);font-size:13px;margin:0 0 6px}
+.jobs-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:11px 17px;border-radius:10px;border:1px solid transparent;font-size:13px;font-weight:650;text-decoration:none;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.jobs-btn-primary{background:var(--accent);color:var(--accent-text)}
+.jobs-btn-primary:hover{background:var(--accent-hover)}
+.jobs-btn-muted{background:var(--surface-light);color:var(--text);border-color:var(--border)}
+.jobs-btn-muted:hover{border-color:var(--accent)}
+.jobs-btn-danger{background:transparent;color:#e68a8a;border-color:rgba(220,90,90,.4)}
+.jobs-btn-danger:hover{background:rgba(215,75,75,.12)}
+.jobs-btn-block{width:100%;margin-top:14px}
+.jobs-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:24px}
+.jobs-stat,.jobs-panel{border:1px solid var(--border);border-radius:14px;background:var(--surface)}
+.jobs-stat{padding:20px}.jobs-stat span{display:block;font-size:12px;color:var(--muted)}.jobs-stat strong{display:block;margin-top:9px;font-size:29px}
+.jobs-panel{padding:24px;margin-top:10px}.jobs-panel h2{font-size:18px;margin-bottom:16px}.jobs-panel h3{font-size:14px;margin:18px 0 12px}
+.jobs-filters{display:flex;align-items:end;flex-wrap:wrap;gap:12px;margin-bottom:22px}.jobs-filters .jobs-field{flex:1 1 220px}.jobs-filters .jobs-btn,.jobs-filters .jobs-clear{margin-bottom:1px}
+.jobs-clear{padding:12px 6px;color:var(--accent);font-size:13px}
+.jobs-field{display:flex;flex-direction:column;gap:8px;font-size:13px}.jobs-field span{color:var(--text);font-weight:600}.jobs-field em{color:#de7777;font-style:normal}
+.jobs-field input,.jobs-field select,.jobs-field textarea{width:100%;color:var(--text);background:var(--surface-light);border:1px solid var(--border);border-radius:9px;padding:12px 13px;outline:none;min-height:43px;box-shadow:none}
+.jobs-field textarea{resize:vertical;font:inherit}.jobs-field input:focus-visible,.jobs-field select:focus-visible,.jobs-field textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.jobs-table-scroll{width:100%;overflow-x:auto}.jobs-table{width:100%;min-width:660px;border-collapse:collapse;text-align:left}.jobs-table th{font-size:12px;color:var(--muted);font-weight:600;padding:13px 12px;border-bottom:1px solid var(--border)}
+.jobs-table td{font-size:13px;padding:17px 12px;border-bottom:1px solid var(--border);vertical-align:middle}.jobs-table td strong{display:block;margin-bottom:6px}.jobs-secondary{display:block;font-size:12px}.jobs-row-actions{white-space:nowrap}.jobs-row-actions a{color:var(--accent);margin-right:14px}
+.jobs-status{display:inline-flex;padding:6px 10px;border-radius:999px;border:1px solid var(--border);font-size:11px;color:var(--text);background:var(--surface-light)}
+.jobs-status-entrevista{color:#44b8ff;background:rgba(60,150,255,.09)}.jobs-status-aprovado{color:#30bd8e;background:rgba(36,185,130,.09)}.jobs-status-recusado,.jobs-status-desistiu{color:#e89090;background:rgba(215,90,90,.09)}.jobs-status-candidatado{color:var(--accent);background:var(--accent-soft)}
+.jobs-note{margin-top:14px;font-size:11px}.jobs-empty{text-align:center;padding:58px 15px}.jobs-empty h2{margin-bottom:9px}.jobs-empty .jobs-btn{margin-top:22px}
+.jobs-form{max-width:950px}.jobs-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.jobs-field-wide{grid-column:1/-1}.jobs-form-actions{display:flex;justify-content:end;gap:12px;margin-top:28px}
+.jobs-alert{border:1px solid var(--border);border-radius:10px;padding:15px 18px;margin-bottom:22px;font-size:13px}.jobs-alert ul{padding-left:22px;margin-top:8px}.jobs-alert-success{border-color:rgba(43,178,126,.45);background:rgba(43,178,126,.08)}.jobs-alert-error{border-color:rgba(215,90,90,.45);background:rgba(215,90,90,.08)}
+.jobs-details-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:18px}.jobs-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-bottom:28px}.jobs-details dt{color:var(--muted);font-size:12px;margin-bottom:7px}.jobs-details dd{font-size:14px;overflow-wrap:anywhere}.jobs-details dd a{color:var(--accent)}.jobs-notes{color:var(--muted);font-size:13px;line-height:1.8;overflow-wrap:anywhere}
+.jobs-actions-panel form{margin-top:18px}.jobs-danger-zone{margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}.jobs-danger-zone h3{color:#e08a8a}.jobs-danger-zone p{font-size:12px;color:var(--muted)}
+@media(max-width:1050px){.jobs-stats{grid-template-columns:repeat(2,1fr)}.jobs-details-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.jobs-page-head{flex-direction:column}.jobs-panel{padding:17px}.jobs-fields,.jobs-details{grid-template-columns:1fr}.jobs-field-wide{grid-column:auto}.jobs-stats{gap:10px}.jobs-stat{padding:14px}.jobs-form-actions{flex-direction:column-reverse}.jobs-form-actions .jobs-btn{width:100%}}

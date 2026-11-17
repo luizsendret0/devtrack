@@ -24,6 +24,7 @@
     
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/profile-menu.css">
+    <link rel="stylesheet" href="assets/css/jobs.css">
 
 </head>
 <body>

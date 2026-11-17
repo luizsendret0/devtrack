@@ -44,6 +44,25 @@ if ($page === 'avatar-upload') {
 }
 
 
+/* =========================================
+   CRUD DE CANDIDATURAS
+========================================= */
+
+if ($page === 'jobs') {
+
+    require __DIR__ . '/../app/middleware/auth.php';
+
+    require_once __DIR__
+        . '/../app/controllers/JobController.php';
+
+    $controller = new JobController();
+    $controller->handle($method);
+
+    exit;
+}
+
+
+
 if ($method !== 'GET') {
     header('Allow: GET, POST');
     http_response_code(405);
