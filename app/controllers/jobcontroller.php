@@ -41,7 +41,7 @@ class JobController
         }
 
         // Nunca processa gravação usando GET.
-        $postActions = ['store', 'update', 'delete', 'status'];
+        $postActions = ['store', 'update', 'delete', 'status', 'status-ajax'];
         $getActions = ['index', 'create', 'edit', 'show'];
         if (in_array($action, $postActions, true) && $method !== 'POST') {
             $this->methodNotAllowed('POST');
@@ -67,6 +67,7 @@ class JobController
                 'update' => $this->update(),
                 'delete' => $this->destroy(),
                 'status' => $this->changeStatus(),
+                'status-ajax' => $this->changeStatusAjax(),
             };
         } catch (PDOException $exception) {
             error_log('[DevTrack jobs] ' . $exception->getMessage());
@@ -161,6 +162,35 @@ class JobController
         $this->jobs()->updateStatus((int) $job['id'], (int) $_SESSION['user_id'], $status);
         $this->flash('success', 'Status atualizado!');
         $this->redirect('show', (int) $job['id']);
+    }
+
+    /**
+     * Atualização assíncrona do Kanban: reaproveita as validações de
+     * sessão, método POST e CSRF executadas em handle().
+     */
+    private function changeStatusAjax(): void
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        header('Cache-Control: no-store');
+
+        $job = $this->getOwnedJob();
+        $status = $_POST['status'] ?? null;
+
+        if (!is_string($status) || !isset(self::STATUSES[$status])) {
+            http_response_code(422);
+            echo json_encode(['success' => false, 'message' => 'Etapa inválida.'], JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        if ($status !== $job['status']) {
+            $this->jobs()->updateStatus((int) $job['id'], (int) $_SESSION['user_id'], $status);
+        }
+
+        echo json_encode([
+            'success' => true,
+            'status' => $status,
+            'label' => self::STATUSES[$status],
+        ], JSON_UNESCAPED_UNICODE);
     }
 
     private function destroy(): void

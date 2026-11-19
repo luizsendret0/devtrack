@@ -1,0 +1,52 @@
+/* Ajustes do dashboard conectado ao MySQL.
+   Respeita as cores atuais do DevTrack e seus temas claro/escuro. */
+
+.dashboard-new-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+.dashboard-new-button:hover { background: var(--accent-hover); }
+.dashboard-link { color: var(--accent); font-size: 13px; font-weight: 600; }
+.dashboard-link:hover { text-decoration: underline; }
+
+/* Cinco colunas: Salvas, Candidatadas, Entrevistas, Aprovadas e Encerradas.
+   Encerradas agrupa recusadas e desistências para não esconder vagas. */
+.kanban-board.dashboard-live-kanban {
+    grid-template-columns: repeat(5, minmax(185px, 1fr));
+    overflow-x: auto;
+}
+.dashboard-job-link { display: block; color: inherit; text-decoration: none; }
+.dashboard-job-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 5px; }
+.dashboard-column-empty { font-size: 12px; color: var(--muted); padding: 10px 4px 12px; line-height: 1.5; }
+.dashboard-more {
+    display: block;
+    text-align: center;
+    color: var(--accent);
+    font-size: 12px;
+    padding: 10px 4px;
+}
+.dashboard-more:hover { text-decoration: underline; }
+.dashboard-empty {
+    border: 1px dashed var(--border);
+    background: var(--surface-light);
+    padding: 38px 24px;
+    border-radius: 12px;
+    text-align: center;
+}
+.dashboard-empty h3 { font-size: 18px; margin-bottom: 10px; }
+.dashboard-empty p { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 22px; }
+.dashboard-study-note { color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+@media (max-width: 600px) {
+    .dashboard-new-button { white-space: normal; }
+    .kanban-board.dashboard-live-kanban { grid-template-columns: repeat(5, 210px); }
+}

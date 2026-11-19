@@ -69,6 +69,16 @@ if ($method !== 'GET') {
     exit('Método não permitido.');
 }
 
+if ($page === 'dashboard' && $method === 'GET') {
+    require __DIR__ . '/../app/middleware/auth.php';
+
+    require_once __DIR__
+        . '/../app/controllers/DashboardController.php';
+
+    (new DashboardController())->index();
+    exit;
+}
+
 if ($page === 'landing') {
     require __DIR__ . '/../views/layouts/landing-header.php';
     require __DIR__ . '/../views/landing/index.php';

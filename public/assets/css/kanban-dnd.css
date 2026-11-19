@@ -1,0 +1,115 @@
+/* DevTrack: drag & drop. Usa as variáveis de cor dos temas atuais. */
+.kanban-instructions {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 0 5px 14px;
+}
+
+/* Permite ver e arrastar todas as candidaturas sem deixar a tela gigantesca. */
+.dashboard-live-kanban .column-content {
+    max-height: min(65vh, 720px);
+    min-height: 110px;
+    overflow-y: auto;
+    padding: 3px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.dashboard-live-kanban .job-card[draggable="true"] {
+    cursor: grab;
+    user-select: none;
+    transition: opacity .15s ease, border-color .15s ease, background .15s ease;
+}
+
+.dashboard-live-kanban .job-card.is-dragging {
+    opacity: .35;
+    cursor: grabbing;
+}
+
+.dashboard-live-kanban .job-card.is-saving {
+    opacity: .55;
+    pointer-events: none;
+}
+
+.dashboard-live-kanban .kanban-column.is-drop-target {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    outline: 2px dashed var(--accent);
+    outline-offset: -3px;
+}
+
+/* Alternativa para quem usa celular ou teclado. */
+.kanban-move {
+    margin-top: 10px;
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.kanban-move summary {
+    cursor: pointer;
+    padding: 3px;
+}
+.kanban-move summary:hover { color: var(--accent); }
+
+.kanban-status-form { display: grid; gap: 7px; padding: 9px 0 2px; }
+.kanban-status-form select {
+    width: 100%;
+    min-height: 35px;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 6px;
+    font-size: 12px;
+}
+.kanban-status-form button {
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 0;
+    border-radius: 7px;
+    padding: 9px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.kanban-status-form button:hover { background: var(--accent-hover); }
+
+.kanban-feedback { min-height: 20px; margin-top: 10px; font-size: 12px; color: var(--accent); }
+.kanban-feedback.is-error { color: #e78787; }
+html[data-theme="light"] .kanban-feedback.is-error { color: #aa1f35; }
+
+.kanban-close-dialog {
+    width: min(92vw, 390px);
+    padding: 24px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, .25);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+}
+.kanban-close-dialog::backdrop { background: rgba(0, 0, 0, .65); }
+.kanban-close-dialog h3 { font-size: 18px; margin-bottom: 8px; }
+.kanban-close-dialog p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.kanban-dialog-actions { display: grid; gap: 10px; margin-top: 20px; }
+.kanban-dialog-actions button {
+    padding: 11px 12px;
+    background: var(--surface-light);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    cursor: pointer;
+}
+.kanban-dialog-actions button:hover { border-color: var(--accent); color: var(--accent); }
+.kanban-dialog-actions button:focus-visible,
+.kanban-status-form button:focus-visible,
+.kanban-status-form select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}

@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/profile-menu.css">
     <link rel="stylesheet" href="assets/css/jobs.css">
+    <link rel="stylesheet" href="assets/css/dashboard-live.css">
+    <link rel="stylesheet" href="assets/css/kanban-dnd.css">
 
 </head>
 <body>
