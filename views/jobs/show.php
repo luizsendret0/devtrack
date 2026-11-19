@@ -31,6 +31,16 @@
                     <?php else: ?>—<?php endif; ?>
                 </dd></div>
             </dl>
+            <h3>Tecnologias exigidas</h3>
+            <?php if (empty($skillNames)): ?>
+                <p class="jobs-notes">Nenhuma tecnologia informada. Edite a vaga para adicioná-las.</p>
+            <?php else: ?>
+                <div class="skills-tags" aria-label="Tecnologias exigidas">
+                    <?php foreach ($skillNames as $skillName): ?>
+                        <span class="skills-tag"><?= e($skillName) ?></span>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
             <h3>Observações</h3>
             <p class="jobs-notes"><?= $job['notes'] ? nl2br(e((string) $job['notes'])) : 'Nenhuma observação cadastrada.' ?></p>
         </div>

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../models/DashboardStats.php';
+require_once __DIR__ . '/../models/Skill.php';
 
 final class DashboardController
 {
@@ -20,6 +21,7 @@ final class DashboardController
                 throw new RuntimeException('A configuração do banco deve retornar um PDO.');
             }
             $dashboard = (new DashboardStats($pdo))->forUser($userId);
+            $skillRanking = (new Skill($pdo))->rankingForUser($userId, 6);
         } catch (PDOException $exception) {
             error_log('[DevTrack dashboard] ' . $exception->getMessage());
             http_response_code(500);

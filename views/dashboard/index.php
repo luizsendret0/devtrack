@@ -139,16 +139,34 @@ $statusLabels = [
                 <span class="study-icon" aria-hidden="true">✧</span>
                 <h2>Área de Estudos</h2>
             </div>
-            <p>Em breve, recomendações baseadas nas tecnologias das suas vagas.</p>
+            <p>As tecnologias mais pedidas nas oportunidades que você cadastrou.</p>
         </div>
 
         <section class="study-section">
-            <h3>Aprendizado conectado à carreira</h3>
-            <p class="dashboard-study-note">
-                Nesta versão, o DevTrack já acompanha suas candidaturas reais.
-                A análise de tecnologias e as trilhas personalizadas entram numa próxima etapa.
-            </p>
-            <a class="study-button" href="index.php?page=studies">Explorar Área de Estudos</a>
+            <h3>Tecnologias mais exigidas</h3>
+            <?php if (empty($skillRanking)): ?>
+                <p class="dashboard-study-note">
+                    Nenhuma tecnologia cadastrada ainda. Edite uma candidatura e informe as
+                    tecnologias da vaga para gerar seu ranking automaticamente.
+                </p>
+            <?php else: ?>
+                <p class="dashboard-study-note">Frequência nas suas candidaturas, com dados reais.</p>
+                <?php $maxSkillCount = max(1, (int) $skillRanking[0]['total']); ?>
+                <div class="skills-ranking">
+                    <?php foreach ($skillRanking as $skill): ?>
+                        <div class="skills-ranking-item">
+                            <div class="skills-ranking-label">
+                                <strong><?= e($skill['name']) ?></strong>
+                                <span><?= (int) $skill['total'] ?> vaga(s)</span>
+                            </div>
+                            <div class="skills-ranking-track" aria-hidden="true">
+                                <div class="skills-ranking-bar" style="width: <?= round((int) $skill['total'] * 100 / $maxSkillCount) ?>%"></div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <a class="study-button" href="index.php?page=jobs">Gerenciar tecnologias nas vagas</a>
         </section>
 
         <section class="study-section">

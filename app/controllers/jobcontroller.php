@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../models/Job.php';
+require_once __DIR__ . '/../models/Skill.php';
 
 class JobController
 {
@@ -31,6 +32,15 @@ class JobController
             throw new RuntimeException('A conexão em app/config/database.php deve retornar um PDO.');
         }
         return new Job($pdo);
+    }
+
+    private function database(): PDO
+    {
+        $pdo = require __DIR__ . '/../config/database.php';
+        if (!$pdo instanceof PDO) {
+            throw new RuntimeException('A conexao em app/config/database.php deve retornar PDO.');
+        }
+        return $pdo;
     }
 
     public function handle(string $method): never
@@ -86,12 +96,14 @@ class JobController
         if ($filter !== '' && !isset(self::STATUSES[$filter])) {
             $filter = '';
         }
-        $jobs = $this->jobs()->findAllForUser($userId, $filter, $search);
-        $counts = $this->jobs()->countsForUser($userId);
+        $pdo = $this->database();
+        $jobs = (new Job($pdo))->findAllForUser($userId, $filter, $search);
+        $counts = (new Job($pdo))->countsForUser($userId);
+        $jobSkills = (new Skill($pdo))->namesForJobs($userId, array_column($jobs, 'id'));
         $flash = $_SESSION['jobs_flash'] ?? null;
         unset($_SESSION['jobs_flash']);
         $statuses = self::STATUSES;
-        $this->render('index', compact('jobs', 'counts', 'flash', 'statuses', 'filter', 'search'));
+        $this->render('index', compact('jobs', 'jobSkills', 'counts', 'flash', 'statuses', 'filter', 'search'));
     }
 
     private function create(): void
@@ -108,15 +120,18 @@ class JobController
     private function show(): void
     {
         $job = $this->getOwnedJob();
+        $skillNames = (new Skill($this->database()))->namesForJob((int) $job['id'], (int) $_SESSION['user_id']);
         $statuses = self::STATUSES;
         $flash = $_SESSION['jobs_flash'] ?? null;
         unset($_SESSION['jobs_flash']);
-        $this->render('show', compact('job', 'statuses', 'flash'));
+        $this->render('show', compact('job', 'skillNames', 'statuses', 'flash'));
     }
 
     private function edit(): void
     {
         $job = $this->getOwnedJob();
+        $userId = (int) $_SESSION['user_id'];
+        $job['skills_text'] = implode(', ', (new Skill($this->database()))->namesForJob((int) $job['id'], $userId));
         $flash = $this->pullForm();
         $old = $flash['old'] ? array_replace($job, $flash['old']) : $job;
         $errors = $flash['errors'];
@@ -128,12 +143,24 @@ class JobController
 
     private function store(): void
     {
-        [$values, $errors, $old] = $this->validateForm();
+        [$values, $errors, $old, $skillNames] = $this->validateForm();
         if ($errors) {
             $this->saveForm($errors, $old);
             $this->redirect('create');
         }
-        $id = $this->jobs()->create((int) $_SESSION['user_id'], $values);
+        $pdo = $this->database();
+        $userId = (int) $_SESSION['user_id'];
+        $pdo->beginTransaction();
+        try {
+            $id = (new Job($pdo))->create($userId, $values);
+            (new Skill($pdo))->replaceForJob($id, $userId, $skillNames);
+            $pdo->commit();
+        } catch (Throwable $exception) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $exception;
+        }
         $this->flash('success', 'Candidatura cadastrada com sucesso!');
         $this->redirect('show', $id);
     }
@@ -141,12 +168,24 @@ class JobController
     private function update(): void
     {
         $job = $this->getOwnedJob();
-        [$values, $errors, $old] = $this->validateForm();
+        [$values, $errors, $old, $skillNames] = $this->validateForm();
         if ($errors) {
             $this->saveForm($errors, $old);
             $this->redirect('edit', (int) $job['id']);
         }
-        $this->jobs()->update((int) $job['id'], (int) $_SESSION['user_id'], $values);
+        $pdo = $this->database();
+        $userId = (int) $_SESSION['user_id'];
+        $pdo->beginTransaction();
+        try {
+            (new Job($pdo))->update((int) $job['id'], $userId, $values);
+            (new Skill($pdo))->replaceForJob((int) $job['id'], $userId, $skillNames);
+            $pdo->commit();
+        } catch (Throwable $exception) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $exception;
+        }
         $this->flash('success', 'Candidatura atualizada com sucesso!');
         $this->redirect('show', (int) $job['id']);
     }
@@ -224,7 +263,13 @@ class JobController
             $old[$key] = is_string($value) ? trim($value) : '';
         }
 
-        $errors = [];
+        $skillsRaw = $_POST['skills_text'] ?? '';
+        $old['skills_text'] = is_string($skillsRaw) ? trim($skillsRaw) : '';
+        [$skillNames, $skillErrors] = Skill::parseInput($old['skills_text']);
+        $errors = $skillErrors;
+        if (!is_string($skillsRaw)) {
+            $errors[] = 'Campo tecnologias invalido.';
+        }
         foreach (['company_name' => 'Empresa', 'job_title' => 'Cargo'] as $key => $label) {
             if ($old[$key] === '' || strlen($old[$key]) > 150) {
                 $errors[] = "$label é obrigatório e deve ter até 150 caracteres.";
@@ -273,7 +318,7 @@ class JobController
             'applied_at' => $old['applied_at'] ?: null,
             'notes' => $old['notes'] ?: null,
         ];
-        return [$values, $errors, $old];
+        return [$values, $errors, $old, $skillNames];
     }
 
     private function saveForm(array $errors, array $old): void

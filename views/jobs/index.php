@@ -60,6 +60,16 @@ $active = ($counts['candidatado'] ?? 0) + ($counts['entrevista'] ?? 0);
                                 <td>
                                     <strong><?= e((string) $job['company_name']) ?></strong>
                                     <span class="jobs-secondary"><?= e((string) $job['job_title']) ?></span>
+                                    <?php if (!empty($jobSkills[(int) $job['id']])): ?>
+                                        <div class="skills-tags skills-tags-compact">
+                                            <?php foreach (array_slice($jobSkills[(int) $job['id']], 0, 4) as $skillName): ?>
+                                                <span class="skills-tag"><?= e($skillName) ?></span>
+                                            <?php endforeach; ?>
+                                            <?php if (count($jobSkills[(int) $job['id']]) > 4): ?>
+                                                <span class="skills-tag">+<?= count($jobSkills[(int) $job['id']]) - 4 ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </td>
                                 <td><?= e(['presencial' => 'Presencial', 'hibrido' => 'Híbrido', 'remoto' => 'Remoto'][$job['work_model'] ?? ''] ?? '—') ?></td>
                                 <td><span class="jobs-status jobs-status-<?= e((string) $job['status']) ?>"><?= e($statuses[$job['status']] ?? (string) $job['status']) ?></span></td>

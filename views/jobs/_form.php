@@ -74,6 +74,13 @@ $val = static fn(string $key): string => e((string) ($old[$key] ?? ''));
             <input type="date" name="applied_at" value="<?= $val('applied_at') ?>">
         </label>
         <label class="jobs-field jobs-field-wide">
+            <span>Tecnologias exigidas</span>
+            <textarea name="skills_text" rows="2" maxlength="1500"
+                      placeholder="JavaScript, React, SQL, Git, PHP"
+                      aria-describedby="job-skills-help"><?= $val('skills_text') ?></textarea>
+            <small class="skills-help" id="job-skills-help">Separe por vírgula. Até 15 tecnologias por vaga. Ex.: C#, C++, Node.js, React.</small>
+        </label>
+        <label class="jobs-field jobs-field-wide">
             <span>Observações</span>
             <textarea name="notes" maxlength="5000" rows="5"
                       placeholder="Contatos, próximos passos e outras informações..."><?= $val('notes') ?></textarea>
